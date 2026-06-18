@@ -1,0 +1,23 @@
+## Build results
+bin/
+obj/
+
+## Runtime generated
+config.json
+runlog/
+
+## IDE / Tools
+.vs/
+.idea/
+.workbuddy/
+*.user
+*.suo
+
+## OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+## Unused resources
+SimpleHttpServer/Resources/exe-icon.png
+SimpleHttpServer/Resources/image-icon.png

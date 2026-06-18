@@ -1,0 +1,153 @@
+<Window x:Class="SimpleHttpServer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="文件服务器" Height="360" Width="480"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#FAFAFA"
+        WindowStyle="SingleBorderWindow"
+        Closing="OnClosing">
+
+    <Window.Resources>
+        <!-- 退出按钮红色覆盖（仅本窗口使用） -->
+        <Style x:Key="ExitBtn" TargetType="Button" BasedOn="{StaticResource IconBtn}">
+            <Setter Property="Background" Value="#EF5350"/>
+            <Setter Property="Foreground" Value="#FFF"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}"
+                                CornerRadius="5" SnapsToDevicePixels="True"
+                                Effect="{StaticResource DangerBtnShadow}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#F44336"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#C62828"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16,14,16,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 访问地址 -->
+        <Grid Grid.Row="0" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="72"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="访问地址" Style="{StaticResource Label}"/>
+            <TextBox Grid.Column="1" x:Name="UrlBox" Style="{StaticResource ReadonlyInput}" Margin="0,0,8,0"/>
+            <Button Grid.Column="2" Content="打开" Style="{StaticResource IconBtn}" Click="OnOpenUrl"/>
+        </Grid>
+
+        <!-- 共享目录 -->
+        <Grid Grid.Row="1" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="72"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="共享目录" Style="{StaticResource Label}"/>
+            <TextBox Grid.Column="1" x:Name="ServerFolderBox" Style="{StaticResource ModernInput}" Margin="0,0,8,0"/>
+            <Button Grid.Column="2" Content="浏览" Style="{StaticResource IconBtn}" Click="OnBrowseFolder"/>
+        </Grid>
+
+        <!-- 监听配置 -->
+        <Grid Grid.Row="2" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="72"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="监听地址" Style="{StaticResource Label}"/>
+            <ComboBox Grid.Column="1" x:Name="AddrBox" IsEditable="True" Margin="0,0,8,0"
+                      SelectionChanged="OnAddrChanged" TextBoxBase.TextChanged="OnAddrChanged"/>
+            <TextBlock Grid.Column="2" Text="端口" Style="{StaticResource Label}" Margin="0,0,6,0"/>
+            <TextBox Grid.Column="3" x:Name="PortBox" Width="72" Style="{StaticResource ModernInput}"
+                     PreviewTextInput="OnNumberOnly" TextChanged="OnPortChanged"/>
+            <TextBlock Grid.Column="4" Text="超时" Style="{StaticResource Label}" Margin="8,0,6,0"/>
+            <TextBox Grid.Column="5" x:Name="TimeoutBox" Width="56" Style="{StaticResource ModernInput}"
+                     PreviewTextInput="OnNumberOnly"/>
+            <TextBlock Grid.Column="6" Text="分钟" Style="{StaticResource HintText}" Margin="4,0,0,0"/>
+        </Grid>
+
+        <!-- 操作行：5按钮自然宽度，间距均分填满整行 -->
+        <Grid Grid.Row="3" Margin="0,0,0,11">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="用户管理" Style="{StaticResource IconBtn}" Click="OnUsersEdit"/>
+            <Button Grid.Column="2" Content="界面管理" Style="{StaticResource IconBtn}" Click="OnAppearEdit"/>
+            <Button Grid.Column="4" Content="预览管理" Style="{StaticResource IconBtn}" Click="OnPreviewEdit"/>
+            <Button Grid.Column="6" Content="运行日志" Style="{StaticResource IconBtn}" Click="OnRunlog"/>
+            <Button Grid.Column="8" Content="打开目录" Style="{StaticResource IconBtn}" Click="OnOpenFolder"/>
+        </Grid>
+
+        <!-- 分隔线 + 启动按钮 + 分隔线 -->
+        <Separator Grid.Row="4" Style="{StaticResource Divider}"/>
+        <Grid Grid.Row="5" Margin="0,14,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="StartButton" Grid.Column="1" Content="启动服务器"
+                    Style="{StaticResource PrimaryBtn}" HorizontalAlignment="Center"
+                    Click="ToggleServer"/>
+        </Grid>
+        <Separator Grid.Row="6" Style="{StaticResource Divider}"/>
+
+        <!-- 退出行：统计 + 退出按钮 -->
+        <Grid Grid.Row="7" Margin="0,2,0,14">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock x:Name="StatusText" Text="请求数: 0" Style="{StaticResource StatusText}"/>
+                <TextBlock x:Name="BandwidthText" Text="总流量: 0B" Style="{StaticResource StatusText}" Margin="12,0,0,0"/>
+            </StackPanel>
+            <Button Content="退出" Style="{StaticResource ExitBtn}" HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnExit"/>
+        </Grid>
+
+        <!-- 状态栏：启用认证 + 开机自启（左） + 运行状态（右） -->
+        <Grid Grid.Row="8" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox x:Name="AuthCheck" Content="启用认证" VerticalAlignment="Center"/>
+                <CheckBox x:Name="AutoStartMenu" Content="开机自启" VerticalAlignment="Center" Margin="16,0,0,0" Click="OnAutoStartToggle"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,11,0">
+                <Ellipse x:Name="StatusDot" Width="10" Height="10" Fill="#9E9E9E" Margin="0,0,6,0"/>
+                <TextBlock x:Name="ServerStatusText" Text="已停止" Style="{StaticResource StatusText}"
+                           FontWeight="Medium" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

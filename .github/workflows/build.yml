@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore SimpleHttpServer\SimpleHttpServer.csproj
+
+      - name: Build
+        run: dotnet build SimpleHttpServer\SimpleHttpServer.csproj -c Release --no-restore
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SHFS-v1.0.0
+          path: SimpleHttpServer\bin\Release\net48\SHFS.exe
