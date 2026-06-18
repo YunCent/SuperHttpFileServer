@@ -69,9 +69,9 @@ namespace SuperHttpFileServer
             BtnEdit.Visibility = isBlack ? Visibility.Collapsed : Visibility.Visible;
             BtnDelete.Visibility = isBlack ? Visibility.Collapsed : Visibility.Visible;
             BtnUnlock.Visibility = isBlack ? Visibility.Visible : Visibility.Collapsed;
-            BtnAdd.Content = IsUserTab ? "新建用户" : "新建";
-            BtnEdit.Content = IsUserTab ? "编辑用户" : "编辑";
-            BtnDelete.Content = IsUserTab ? "删除用户" : "删除";
+            BtnAdd.Content = "新建";
+            BtnEdit.Content = "编辑";
+            BtnDelete.Content = "删除";
             if (isBlack) LoadBlacklist();
         }
 

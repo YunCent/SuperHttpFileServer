@@ -90,15 +90,19 @@ namespace SuperHttpFileServer
             sb.AppendLine("<style>");
             sb.AppendLine("*{margin:0;padding:0;box-sizing:border-box}");
             sb.AppendLine("body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding-top:18vh}");
-            sb.AppendLine(".card{background:#fff;border-radius:14px;padding:32px 32px 36px;width:370px;box-shadow:0 4px 20px rgba(0,0,0,.1);position:relative}");
+            sb.AppendLine(".card{background:#fff;border-radius:14px;padding:40px 32px 36px;width:370px;box-shadow:0 4px 20px rgba(0,0,0,.1);position:relative}");
             if (!string.IsNullOrEmpty(logoSrc))
             {
                 sb.AppendLine(".logo{width:52px;height:52px;border-radius:10px;object-fit:contain;position:absolute;top:28px;left:32px}");
                 sb.AppendLine(".title-row{text-align:center;margin-bottom:24px;padding-top:8px}");
             }
+            else
+            {
+                sb.AppendLine(".title-row{text-align:center;margin-bottom:24px}");
+            }
             sb.AppendLine(".title-row h2{font-size:22px;font-weight:600;color:#1a1a2e;margin:0}");
             sb.AppendLine(".input-group{position:relative;margin-bottom:18px}");
-            sb.AppendLine(".input-group .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:#aaa;pointer-events:none}");
+            sb.AppendLine(".input-group .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:17px;color:#999;pointer-events:none}");
             sb.AppendLine(".input-group input{width:100%;height:44px;border:1px solid #e0e0e0;border-radius:10px;padding:0 14px 0 40px;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}");
             sb.AppendLine(".input-group input:focus{border-color:#4285F4;box-shadow:0 0 0 3px rgba(66,133,244,.12)}");
             sb.AppendLine(".input-group input::placeholder{color:#bbb}");
@@ -111,7 +115,7 @@ namespace SuperHttpFileServer
             if (beianSize <= 0) beianSize = 15;
             sb.AppendLine(".beian{text-align:center;font-size:" + beianSize + "px;color:#999;margin-top:24px;position:fixed;bottom:20px;left:0;width:100%}");
             sb.AppendLine(".beian a{color:#999;text-decoration:none}.beian a:hover{color:#666;text-decoration:underline}");
-            sb.AppendLine("@media(max-width:500px){.card{width:92%;padding:20px 18px}.logo{width:44px;height:44px;margin-bottom:10px}.title-row h2{font-size:17px}.title-row{margin-bottom:16px}.input-group input{height:40px;font-size:13px}.login-btn{height:40px;font-size:14px}.input-group{margin-bottom:14px}.remember-row{margin:2px 0 14px}.beian{font-size:11px!important;bottom:12px}}");
+            sb.AppendLine("@media(max-width:500px){.card{width:92%;padding:20px 18px}.logo{width:44px;height:44px;position:relative;top:auto;left:auto;display:block;margin:0 auto 10px}.title-row{text-align:center;margin-bottom:16px;padding-top:0}.title-row h2{font-size:17px}.input-group input{height:40px;font-size:13px}.login-btn{height:40px;font-size:14px}.input-group{margin-bottom:14px}.remember-row{margin:2px 0 14px}.beian{font-size:11px!important;bottom:12px}}");
             sb.AppendLine("</style></head><body>");
 
             sb.AppendLine("<div class='card'>");
@@ -166,10 +170,20 @@ namespace SuperHttpFileServer
             sb.AppendLine(".header-right{display:flex;align-items:center;gap:12px}");
             sb.AppendLine(".user-badge{display:flex;align-items:center;gap:8px;padding:6px 14px;background:#f5f5f5;border-radius:20px;font-size:13px;color:#666;box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}");
             sb.AppendLine(".user-avatar{width:24px;height:24px;background:#4285F4;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;box-shadow:0 1px 3px rgba(66,133,244,.3)}");
-            // 面包屑
-            sb.AppendLine(".breadcrumb{padding:0 24px;margin-top:12px;font-size:15px;color:#666;max-width:1024px;width:100%;margin-left:auto;margin-right:auto}");
-            sb.AppendLine(".breadcrumb a{color:#4285F4;text-decoration:none}.breadcrumb a:hover{color:#5A95F5}");
-            sb.AppendLine(".breadcrumb .sep{color:#ccc;margin:0 6px}");
+            // 导航工具栏（面包屑+计数+搜索+清除+上传合一）
+            sb.AppendLine(".nav-bar{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:0 20px;min-height:48px;display:flex;align-items:center;gap:12px;max-width:1024px;width:100%;margin:12px auto 0}");
+            sb.AppendLine(".nav-breadcrumb{display:flex;align-items:center;gap:4px;font-size:14px;color:#666;flex-shrink:1;overflow:hidden;white-space:nowrap;min-width:0;max-width:40%}");
+            sb.AppendLine(".nav-breadcrumb a{color:#4285F4;text-decoration:none}.nav-breadcrumb a:hover{color:#5A95F5}");
+            sb.AppendLine(".nav-breadcrumb .sep{color:#ccc;margin:0 2px}");
+            sb.AppendLine(".nav-count{font-size:12px;color:#999;flex-shrink:0;white-space:nowrap}");
+            sb.AppendLine(".nav-spacer{flex:1}");
+            sb.AppendLine(".nav-bar input{width:160px;height:32px;border:1px solid #e0e0e0;border-radius:6px;padding:0 10px;font-size:13px;outline:none;box-shadow:inset 0 1px 2px rgba(0,0,0,.06);transition:border-color .2s,box-shadow .2s;flex-shrink:0}");
+            sb.AppendLine(".nav-bar input:focus{border-color:#4285F4;box-shadow:inset 0 1px 2px rgba(0,0,0,.06),0 0 0 3px rgba(66,133,244,.12)}");
+            sb.AppendLine(".nav-bar .clear-btn{height:32px;padding:0 10px;background:#fff;border:1px solid #e0e0e0;border-radius:6px;color:#666;cursor:pointer;font-size:12px;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:all .2s;white-space:nowrap;flex-shrink:0}");
+            sb.AppendLine(".nav-bar .clear-btn:hover{background:#f5f5f5;box-shadow:0 2px 4px rgba(0,0,0,.08)}");
+            sb.AppendLine(".nav-row{display:flex;align-items:center;gap:12px;width:100%}");
+            sb.AppendLine(".nav-row-bottom{display:none;align-items:center;gap:6px;width:100%;margin-top:8px;padding-bottom:4px;flex-wrap:wrap}");
+            sb.AppendLine("@media(max-width:600px){.nav-bar{height:auto;flex-wrap:wrap;padding:10px 12px}.nav-row-bottom{display:flex}.nav-row input,.nav-row .clear-btn,.nav-row .btn-primary{display:none}.nav-row-bottom input{flex:1;min-width:120px;height:32px;border:1px solid #e0e0e0;border-radius:6px;padding:0 10px;font-size:13px;outline:none;box-shadow:inset 0 1px 2px rgba(0,0,0,.06)}.nav-row-bottom input:focus{border-color:#4285F4;box-shadow:inset 0 1px 2px rgba(0,0,0,.06),0 0 0 3px rgba(66,133,244,.12)}.nav-row-bottom .clear-btn{height:32px;padding:0 10px;background:#fff;border:1px solid #e0e0e0;border-radius:6px;color:#666;cursor:pointer;font-size:12px;white-space:nowrap}.nav-row-bottom .clear-btn:hover{background:#f5f5f5}.nav-row-bottom .btn-primary{height:32px;padding:0 12px;font-size:12px}}");
             // 按钮
             sb.AppendLine(".btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;text-decoration:none;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.08)}");
             sb.AppendLine(".btn-primary{background:#4285F4;color:#fff}.btn-primary:hover{background:#5A95F5;box-shadow:0 2px 6px rgba(66,133,244,.3)}");
@@ -179,17 +193,6 @@ namespace SuperHttpFileServer
             sb.AppendLine(".btn-icon{background:#fff;color:#666;border:1px solid #e0e0e0;height:34px;padding:0 12px;font-size:13px}.btn-icon:hover{background:#f5f5f5;box-shadow:0 2px 6px rgba(0,0,0,.1)}");
             // 容器
             sb.AppendLine(".container{max-width:1024px;width:100%;margin:12px auto 40px;padding:0 24px}");
-            // 搜索栏
-            sb.AppendLine(".search-bar{display:flex;gap:8px;margin:0 -24px 12px}");
-            sb.AppendLine(".search-bar input{flex:1;height:34px;border:1px solid #e0e0e0;border-radius:6px;padding:0 12px;font-size:13px;outline:none;box-shadow:inset 0 1px 2px rgba(0,0,0,.06);transition:border-color .2s,box-shadow .2s}");
-            sb.AppendLine(".search-bar input:focus{border-color:#4285F4;box-shadow:inset 0 1px 2px rgba(0,0,0,.06),0 0 0 3px rgba(66,133,244,.12)}");
-            sb.AppendLine(".search-bar .clear-btn{height:34px;padding:0 12px;background:#fff;border:1px solid #e0e0e0;border-radius:6px;color:#666;cursor:pointer;font-size:13px;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:all .2s}");
-            sb.AppendLine(".search-bar .clear-btn:hover{background:#f5f5f5;box-shadow:0 2px 4px rgba(0,0,0,.08)}");
-            // 工具栏
-            sb.AppendLine(".toolbar{display:flex;justify-content:space-between;align-items:center;margin:0 -24px 8px}");
-            sb.AppendLine(".toolbar-left{display:flex;gap:8px;align-items:center}");
-            sb.AppendLine(".toolbar-right{display:flex;gap:8px}");
-            sb.AppendLine(".count-label{font-size:12px;color:#666}");
             // 文件列表
             sb.AppendLine(".file-list{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);overflow:hidden;margin:0 -24px}");
             sb.AppendLine(".file-row{display:flex;align-items:center;padding:10px 20px;border-bottom:1px solid #f0f0f0;transition:all .15s;position:relative}");
@@ -227,7 +230,7 @@ namespace SuperHttpFileServer
             // 上传
             sb.AppendLine(".upload-area{margin-top:24px;background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.07)}");
             sb.AppendLine(".upload-area h3{font-size:15px;font-weight:600;margin-bottom:14px;color:#333}");
-            sb.AppendLine(".drop-zone{border:2px dashed #A4C2F4;border-radius:10px;padding:28px;text-align:center;color:#5A95F5;transition:all .2s;cursor:pointer}");
+            sb.AppendLine(".drop-zone{border:2px dashed #A4C2F4;border-radius:10px;padding:28px;text-align:center;color:#5A95F5;transition:all .2s;cursor:pointer;box-sizing:border-box}");
             sb.AppendLine(".drop-zone:hover,.drop-zone.dragover{border-color:#4285F4;background:#E3F0FF;color:#3367D6;box-shadow:inset 0 2px 8px rgba(66,133,244,.1)}");
             sb.AppendLine(".drop-zone p{margin:8px 0;font-size:14px}");
             sb.AppendLine(".drop-zone input[type=file]{display:none}");
@@ -247,7 +250,7 @@ namespace SuperHttpFileServer
             // 弹窗
             sb.AppendLine(".modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:250;display:none;align-items:center;justify-content:center;backdrop-filter:blur(2px)}");
             sb.AppendLine(".modal-overlay.show{display:flex}");
-            sb.AppendLine(".modal{background:#fff;border-radius:14px;padding:32px;width:440px;max-width:90vw;box-shadow:0 16px 48px rgba(0,0,0,.2);text-align:center}");
+            sb.AppendLine(".modal{background:#fff;border-radius:14px;padding:32px;width:440px;max-width:90vw;box-shadow:0 16px 48px rgba(0,0,0,.2);text-align:center;box-sizing:border-box}");
             sb.AppendLine(".modal h3{font-size:17px;font-weight:600;color:#333;margin-bottom:18px}");
             sb.AppendLine(".modal input[type=text]{width:100%;height:42px;border:1px solid #d9d9d9;border-radius:8px;padding:0 12px;font-size:14px;outline:none;margin-bottom:14px;box-shadow:inset 0 1px 2px rgba(0,0,0,.06);transition:border-color .2s,box-shadow .2s}");
             sb.AppendLine(".modal input[type=text]:focus{border-color:#4285F4;box-shadow:inset 0 1px 2px rgba(0,0,0,.06),0 0 0 3px rgba(66,133,244,.12)}");
@@ -261,8 +264,8 @@ namespace SuperHttpFileServer
             sb.AppendLine(".dir-item .arrow.open{transform:rotate(90deg)}");
             sb.AppendLine(".dir-children{display:none;padding-left:20px}");
             sb.AppendLine(".dir-children.open{display:block}");
-            sb.AppendLine("@media(max-width:768px){.header{padding:0 20px;width:auto;max-width:none;margin:0 12px;border-radius:10px}.breadcrumb{padding:0 20px;margin:12px 12px 0;width:auto;max-width:none}.container{width:auto;max-width:none}.search-bar{margin:0 12px 12px}.toolbar{margin:0 12px 8px}.file-list{margin:0 12px;border-radius:10px}.file-row{padding:10px 16px}.file-icon{width:32px;height:32px;margin-right:12px;font-size:16px}.upload-area{padding:16px;margin:20px 12px 0;border-radius:10px}.drop-zone{padding:20px 16px}}");
-            sb.AppendLine("@media(max-width:500px){.header{height:52px;padding:0 16px;width:auto;max-width:none;margin:0 8px;border-radius:8px}.brand{font-size:15px}.logo{width:32px;height:32px}.user-badge{padding:5px 12px;font-size:13px}.breadcrumb{padding:0 16px;margin:10px 8px 0;width:auto;max-width:none;font-size:13px}.container{width:auto;max-width:none;padding:0 8px;margin:10px auto 32px}.search-bar{margin:0 8px 10px;gap:6px}.search-bar input{height:36px;font-size:14px;padding:0 12px}.search-bar .clear-btn{height:36px;padding:0 12px;font-size:13px}.toolbar{margin:0 8px 6px}.toolbar .btn{height:32px;padding:0 12px;font-size:13px}.count-label{font-size:12px}.file-list{margin:0 8px;border-radius:8px}.file-row{padding:10px 12px}.file-icon{width:28px;height:28px;margin-right:10px;font-size:14px}.file-name{font-size:14px}.file-meta{font-size:12px}.upload-area{padding:14px;margin:16px 8px 0;border-radius:8px}.drop-zone{padding:16px}.modal{width:92%;padding:24px 16px;border-radius:12px}.ctx-menu{min-width:140px;font-size:13px}.btn{height:32px;padding:0 14px;font-size:13px}}");
+            sb.AppendLine("@media(max-width:768px){.header{padding:0 12px;width:auto;max-width:none;margin:0 8px;border-radius:10px}.nav-bar{width:auto;max-width:none;margin:8px 8px 0;padding:0 12px;border-radius:10px}.container{width:auto;max-width:none;padding:0}.file-list{margin:8px 8px 0;border-radius:10px}.file-row{padding:10px 16px}.file-icon{width:32px;height:32px;margin-right:12px;font-size:16px}.upload-area{padding:16px;margin:20px 8px 0;border-radius:10px}.drop-zone{padding:20px 16px}}");
+            sb.AppendLine("@media(max-width:500px){.header{height:52px;padding:0 12px;width:auto;max-width:none;margin:0 8px;border-radius:8px}.brand{font-size:15px}.logo{width:32px;height:32px}.user-badge{padding:5px 12px;font-size:13px}.container{width:auto;max-width:none;padding:0;margin:8px auto 32px}.file-list{margin:8px 8px 0;border-radius:8px}.file-row{padding:10px 12px}.file-icon{width:28px;height:28px;margin-right:10px;font-size:14px}.file-name{font-size:14px}.file-meta{font-size:12px}.upload-area{padding:14px;margin:16px 8px 0;border-radius:8px}.drop-zone{padding:16px}.modal{width:92%;padding:24px 16px;border-radius:12px}.ctx-menu{min-width:140px;font-size:13px}.btn{height:32px;padding:0 14px;font-size:13px}}");
             sb.AppendLine("</style></head><body>");
 
             // 页头
@@ -279,9 +282,11 @@ namespace SuperHttpFileServer
             }
             sb.AppendLine("</div></div>");
 
-            // 面包屑
-            sb.AppendLine("<div class='breadcrumb'>");
-            sb.AppendLine("<a href='/'><span style='font-size:18px'>🏠</span> 首页</a>");
+            // 导航工具栏（面包屑+计数+搜索+清除+上传合一）
+            sb.AppendLine("<div class='nav-bar'>");
+            sb.AppendLine("<div class='nav-row'>");
+            sb.AppendLine("<div class='nav-breadcrumb'>");
+            sb.AppendLine("<a href='/'><span style='font-size:16px'>🏠</span> 首页</a>");
             if (!string.IsNullOrEmpty(relativePath))
             {
                 string[] parts = relativePath.Split(new[]{'/'}, StringSplitOptions.RemoveEmptyEntries);
@@ -294,26 +299,24 @@ namespace SuperHttpFileServer
                 }
             }
             sb.AppendLine("</div>");
+            sb.AppendLine("<div class='nav-spacer'></div>");
+            sb.AppendLine("<span class='nav-count' id='itemCount'></span>");
+            sb.AppendLine("<input type='text' id='searchInput' placeholder='搜索文件...' autocomplete='off'>");
+            sb.AppendLine("<button class='clear-btn' onclick='doClearSearch()' title='清除搜索记录'>🗑️ 清除记录</button>");
+            if (showUpload)
+                sb.AppendLine("<button class='btn btn-primary' id='uploadBtn' onclick='openUploadModal()' style='height:32px;font-size:12px;padding:0 12px'>📤 上传文件</button>");
+            sb.AppendLine("</div>");
+            // 手机端第二行：搜索+按钮
+            sb.AppendLine("<div class='nav-row-bottom'>");
+            sb.AppendLine("<input type='text' id='searchInputMobile' placeholder='搜索文件...' autocomplete='off'>");
+            sb.AppendLine("<button class='clear-btn' onclick='doClearSearch()' title='清除搜索记录'>🗑️</button>");
+            if (showUpload)
+                sb.AppendLine("<button class='btn btn-primary' onclick='openUploadModal()' style='height:32px;font-size:12px;padding:0 12px'>📤 上传</button>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</div>");
 
             // 容器
             sb.AppendLine("<div class='container'>");
-
-            // 搜索栏
-            sb.AppendLine("<div class='search-bar'>");
-            sb.AppendLine("<input type='text' id='searchInput' placeholder='搜索文件...' autocomplete='off'>");
-            sb.AppendLine("<button class='clear-btn' onclick='doClearSearch()'>清除</button>");
-            sb.AppendLine("</div>");
-
-            // 工具栏
-            sb.AppendLine("<div class='toolbar'>");
-            sb.AppendLine("<div class='toolbar-left'>");
-            sb.AppendLine("<span class='count-label' id='itemCount'></span>");
-            sb.AppendLine("</div>");
-            sb.AppendLine("<div class='toolbar-right'>");
-            if (showUpload)
-                sb.AppendLine("<button class='btn btn-primary' id='uploadBtn' onclick='openUploadModal()'>📤 上传文件</button>");
-            sb.AppendLine("</div>");
-            sb.AppendLine("</div>");
 
             // 右键菜单
             sb.AppendLine("<div class='ctx-menu' id='ctxMenu'>");
@@ -367,7 +370,7 @@ namespace SuperHttpFileServer
                 sb.AppendLine("<div class='file-row' data-name='" + HtmlEncode(file.Name) +
                     "' data-href='" + urlPrefix + encodedName + "' data-isdir='0' data-size='" + file.Length + "'" + previewAttr + ">");
                 sb.AppendLine("<div class='file-icon " + iconClass + "'>" + iconHtml + "</div>");
-                sb.AppendLine("<div class='file-info'><div class='file-name'><a href='" + urlPrefix + encodedName + "'>" +
+                sb.AppendLine("<div class='file-info'><div class='file-name'><a href='javascript:void(0)' onclick='openPreview(\"" + urlPrefix + encodedName + "\",\"" + HtmlEncode(file.Name) + "\")'>" +
                     HtmlEncode(file.Name) + "</a></div><div class='file-meta'>" +
                     Utility.FormatBytes(file.Length) + " &middot; " +
                     file.LastWriteTime.ToString("yyyy-MM-dd HH:mm") + "</div></div>");
@@ -383,11 +386,13 @@ namespace SuperHttpFileServer
                 sb.AppendLine("<div class='modal-overlay' id='uploadModal'>");
                 sb.AppendLine("<div class='modal'>");
                 sb.AppendLine("<h3>📤 上传文件</h3>");
-                sb.AppendLine("<form method='post' enctype='multipart/form-data' id='uploadForm'>");
+                sb.AppendLine("<form method='post' enctype='multipart/form-data' id='uploadForm' style='display:flex;flex-direction:column;gap:10px'>");
                 sb.AppendLine("<div class='drop-zone' id='dropZone' onclick='document.getElementById(\"fileInput\").click()'>");
                 sb.AppendLine("<p>📂 点击或拖拽文件到此区域上传</p>");
                 sb.AppendLine("<input type='file' name='file' id='fileInput' multiple>");
                 sb.AppendLine("</div>");
+                sb.AppendLine("<button type='button' class='btn btn-outline' onclick='document.getElementById(\"folderInput\").click()' style='font-size:13px;width:100%'>📁 上传文件夹</button>");
+                sb.AppendLine("<input type='file' id='folderInput' webkitdirectory multiple style='display:none'>");
                 sb.AppendLine("<div class='progress-bar-wrap' id='progressWrap'><div class='progress-bar' id='progressBar'></div></div>");
                 sb.AppendLine("<div class='progress-text' id='progressText'></div>");
                 sb.AppendLine("</form>");
@@ -450,7 +455,7 @@ namespace SuperHttpFileServer
             // 脚本
             sb.AppendLine("<script>");
             // 更新条目计数
-            sb.AppendLine("function updateCount(){var rows=document.querySelectorAll('.file-row');var visible=document.querySelectorAll('.file-row:not(.hidden)');var el=document.getElementById('itemCount');if(el)el.textContent=visible.length+' / '+rows.length+' items'}updateCount();");
+            sb.AppendLine("function updateCount(){var rows=document.querySelectorAll('.file-row');var visible=document.querySelectorAll('.file-row:not(.hidden)');var txt=visible.length+' / '+rows.length+' items';var el=document.getElementById('itemCount');if(el)el.textContent=txt}updateCount();");
 
             // 会话超时
             if (timeoutMin > 0)
@@ -464,20 +469,20 @@ namespace SuperHttpFileServer
 
             // 预览
             sb.AppendLine("function getPreviewType(name){var ext=name.split('.').pop().toLowerCase();var imgs=['png','jpg','jpeg','gif','svg','bmp','webp','ico','tiff','tif','avif'];var texts=['txt','log','md','csv','css','js','json','xml','ini','c','cpp','h','cs','py','java','go','rs','ts','yaml','yml','sh','bat','ps1','html','htm'];var videos=['mp4','webm','avi','mkv','mov','wmv'];var audios=['mp3','wav','ogg','flac','m4a','aac'];var offices=['docx','doc','xlsx','xls','pptx','ppt'];if(imgs.indexOf(ext)>=0)return'img';if(texts.indexOf(ext)>=0)return'text';if(ext==='pdf')return'pdf';if(videos.indexOf(ext)>=0)return'video';if(audios.indexOf(ext)>=0)return'audio';if(offices.indexOf(ext)>=0)return'office';return''}");
-            sb.AppendLine("function openPreview(href,name){var t=getPreviewType(name);var c=document.getElementById('previewContent');var dl=document.getElementById('previewDownload');document.getElementById('previewTitle').textContent=name;dl.href=href;if(!t){c.innerHTML='<div style=\"text-align:center;padding:40px 20px\"><div style=\"font-size:48px;margin-bottom:16px\">📄</div><div style=\"color:#666;font-size:15px;margin-bottom:20px\">此文件无法预览</div><a href=\"'+href+'\" download style=\"display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 24px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;text-decoration:none;background:#4285F4;color:#fff;transition:background .15s'>📥 下载文件</a></div>';document.getElementById('previewModal').classList.add('show');return}c.innerHTML='<div style=\"color:#999\">加载中...</div>';if(t==='img'){c.innerHTML='<img src=\"'+href+'\" style=\"max-width:100%;max-height:70vh;object-fit:contain;border-radius:6px\"/>'}else if(t==='text'){fetch(href).then(function(r){return r.arrayBuffer()}).then(function(buf){var enc=new TextDecoder('utf-8',{fatal:false});var txt=enc.decode(buf);if(txt.indexOf('\\ufffd')>=0){try{txt=new TextDecoder('gbk',{fatal:false}).decode(buf)}catch(e){}}c.innerHTML='<pre style=\"margin:0;white-space:pre-wrap;word-break:break-all;font-size:13px;line-height:1.6;color:#333;background:#fafafa;padding:16px;border-radius:6px;width:100%;max-height:65vh;overflow:auto\">'+txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>'}).catch(function(){c.innerHTML='<div style=\"color:#EF5350\">加载失败</div>'})}else if(t==='pdf'){c.innerHTML='<iframe src=\"'+href+'\" style=\"width:100%;height:65vh;border:none;border-radius:6px\"></iframe>'}else if(t==='video'){c.innerHTML='<video src=\"'+href+'\" controls style=\"max-width:100%;max-height:65vh;border-radius:6px\"></video>'}else if(t==='audio'){c.innerHTML='<audio src=\"'+href+'\" controls style=\"width:100%\"></audio>'}else if(t==='office'){c.innerHTML='<iframe src=\"/_preview?path='+encodeURIComponent(href)+'\" style=\"width:100%;height:65vh;border:none;border-radius:6px\"></iframe>'}document.getElementById('previewModal').classList.add('show')}");
+            sb.AppendLine("function openPreview(href,name){var t=getPreviewType(name);var c=document.getElementById('previewContent');var dl=document.getElementById('previewDownload');document.getElementById('previewTitle').textContent=name;dl.href=href;if(!t){c.innerHTML=`<div style=\"text-align:center;padding:40px 20px\"><div style=\"font-size:48px;margin-bottom:16px\">📄</div><div style=\"color:#666;font-size:15px;margin-bottom:20px\">此文件无法预览</div><a href=\"${href}\" download style=\"display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 24px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;text-decoration:none;background:#4285F4;color:#fff;transition:background .15s'>📥 下载文件</a></div>`;document.getElementById('previewModal').classList.add('show');return}c.innerHTML=`<div style=\"color:#999\">加载中...</div>`;if(t==='img'){c.innerHTML=`<img src=\"${href}\" style=\"max-width:100%;max-height:70vh;object-fit:contain;border-radius:6px\"/>`}else if(t==='text'){fetch(href).then(function(r){return r.arrayBuffer()}).then(function(buf){var enc=new TextDecoder('utf-8',{fatal:false});var txt=enc.decode(buf);if(txt.indexOf('\\ufffd')>=0){try{txt=new TextDecoder('gbk',{fatal:false}).decode(buf)}catch(e){}}c.innerHTML=`<pre style=\"margin:0;white-space:pre-wrap;word-break:break-all;font-size:13px;line-height:1.6;color:#333;background:#fafafa;padding:16px;border-radius:6px;width:100%;max-height:65vh;overflow:auto\">${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`}).catch(function(){c.innerHTML=`<div style=\"color:#EF5350\">加载失败</div>`})}else if(t==='pdf'){c.innerHTML=`<iframe src=\"${href}\" style=\"width:100%;height:65vh;border:none;border-radius:6px\"></iframe>`}else if(t==='video'){c.innerHTML=`<video src=\"${href}\" controls style=\"max-width:100%;max-height:65vh;border-radius:6px\"></video>`}else if(t==='audio'){c.innerHTML=`<audio src=\"${href}\" controls style=\"width:100%\"></audio>`}else if(t==='office'){c.innerHTML=`<iframe src=\"/_preview?path=${encodeURIComponent(href)}\" style=\"width:100%;height:65vh;border:none;border-radius:6px\"></iframe>`}document.getElementById('previewModal').classList.add('show')}");
             sb.AppendLine("function closePreview(){document.getElementById('previewModal').classList.remove('show');document.getElementById('previewContent').innerHTML=''}");
 
-            // 双击：全部预览
-            sb.AppendLine("document.querySelectorAll('.file-row').forEach(function(r){if(r.dataset.isdir==='0'){r.addEventListener('dblclick',function(e){e.preventDefault();openPreview(r.dataset.href,r.dataset.name)})}});");
+            // 双击：全部预览（事件委托）
+            sb.AppendLine("document.addEventListener('dblclick',function(e){var r=e.target.closest('.file-row');if(!r||r.dataset.isdir==='1')return;e.preventDefault();openPreview(r.dataset.href,r.dataset.name)});");
 
             // 退出登录
-            sb.AppendLine("document.getElementById('logoutBtn').addEventListener('click',function(){fetch('/_logout',{method:'POST'}).then(function(){location.reload()}).catch(function(){location.reload()})});");
+            sb.AppendLine("var _lb=document.getElementById('logoutBtn');if(_lb)_lb.addEventListener('click',function(){fetch('/_logout',{method:'POST'}).then(function(){location.reload()}).catch(function(){location.reload()})});");
 
             // 上传弹窗
             if (showUpload)
             {
                 sb.AppendLine("function openUploadModal(){document.getElementById('uploadModal').classList.add('show')}");
-                sb.AppendLine("function closeUploadModal(){document.getElementById('uploadModal').classList.remove('show');var pw=document.getElementById('progressWrap');if(pw)pw.classList.remove('show');var pb=document.getElementById('progressBar');if(pb)pb.style.width='0%';var pt=document.getElementById('progressText');if(pt)pt.textContent='';var fi=document.getElementById('fileInput');if(fi)fi.value=''}");
+                sb.AppendLine("function closeUploadModal(){document.getElementById('uploadModal').classList.remove('show');var pw=document.getElementById('progressWrap');if(pw)pw.classList.remove('show');var pb=document.getElementById('progressBar');if(pb)pb.style.width='0%';var pt=document.getElementById('progressText');if(pt)pt.textContent='';var fi=document.getElementById('fileInput');if(fi)fi.value='';var fo=document.getElementById('folderInput');if(fo)fo.value=''}");
             }
 
             // 重命名弹窗
@@ -503,34 +508,38 @@ namespace SuperHttpFileServer
             }
 
             // 右键菜单
-            sb.AppendLine("var ctx=document.getElementById('ctxMenu'),ctxRow=null;var ctxOpen=document.getElementById('ctxOpen');var ctxPreview=document.getElementById('ctxPreview');");
-            sb.AppendLine("document.querySelectorAll('.file-row').forEach(function(r){r.addEventListener('contextmenu',function(e){e.preventDefault();ctxRow=r;ctx.style.left=e.clientX+'px';ctx.style.top=e.clientY+'px';ctx.classList.add('show');var zi=document.getElementById('ctxZip');if(zi)zi.style.display=r.dataset.isdir==='1'?'flex':'none';if(ctxOpen)ctxOpen.style.display=r.dataset.isdir==='1'?'flex':'none';if(ctxPreview)ctxPreview.style.display=r.dataset.preview==='1'?'flex':'none'})});");
+            sb.AppendLine("var ctx=document.getElementById('ctxMenu'),ctxRow=null;");
+            sb.AppendLine("document.addEventListener('contextmenu',function(e){ctxRow=e.target.closest?e.target.closest('.file-row'):null;if(!ctxRow)return;e.preventDefault();ctx.style.left=e.clientX+'px';ctx.style.top=e.clientY+'px';ctx.classList.add('show');var zi=document.getElementById('ctxZip');if(zi)zi.style.display=ctxRow.dataset.isdir==='1'?'flex':'none';var co=document.getElementById('ctxOpen');if(co)co.style.display=ctxRow.dataset.isdir==='1'?'flex':'none';var cd=document.getElementById('ctxDownload');if(cd)cd.style.display=ctxRow.dataset.isdir==='1'?'none':'flex';var cp=document.getElementById('ctxPreview');if(cp)cp.style.display=ctxRow.dataset.preview==='1'?'flex':'none'});");
             sb.AppendLine("document.addEventListener('click',function(){ctx.classList.remove('show')});");
-            sb.AppendLine("if(ctxOpen)ctxOpen.addEventListener('click',function(){if(ctxRow){if(ctxRow.dataset.isdir==='1'){window.location.href=ctxRow.dataset.href}else if(ctxRow.dataset.preview==='1'){openPreview(ctxRow.dataset.href,ctxRow.dataset.name)}else{window.location.href=ctxRow.dataset.href}}ctx.classList.remove('show')});");
-            sb.AppendLine("if(ctxPreview)ctxPreview.addEventListener('click',function(){if(ctxRow&&ctxRow.dataset.preview==='1'){openPreview(ctxRow.dataset.href,ctxRow.dataset.name)}ctx.classList.remove('show')});");
-            sb.AppendLine("document.getElementById('ctxDownload').addEventListener('click',function(){if(ctxRow)window.location.href=ctxRow.dataset.href;ctx.classList.remove('show')});");
+            sb.AppendLine("var _co=document.getElementById('ctxOpen');if(_co)_co.addEventListener('click',function(){if(ctxRow){if(ctxRow.dataset.isdir==='1'){window.location.href=ctxRow.dataset.href}else{openPreview(ctxRow.dataset.href,ctxRow.dataset.name)}}ctx.classList.remove('show')});");
+            sb.AppendLine("var _cp=document.getElementById('ctxPreview');if(_cp)_cp.addEventListener('click',function(){if(ctxRow&&_cp.style.display!=='none'){openPreview(ctxRow.dataset.href,ctxRow.dataset.name)}ctx.classList.remove('show')});");
+            sb.AppendLine("var _cd=document.getElementById('ctxDownload');if(_cd)_cd.addEventListener('click',function(){if(ctxRow)window.location.href=ctxRow.dataset.href;ctx.classList.remove('show')});");
             if (showZip)
-                sb.AppendLine("document.getElementById('ctxZip').addEventListener('click',function(){if(ctxRow&&ctxRow.dataset.isdir==='1'){if(confirm('确认打包此目录为ZIP？')){fetch(ctxRow.dataset.href.replace(/\\/$/,'')+'/_zip').then(function(r){return r.json()}).then(function(d){if(d.ok){showToast('打包成功: '+d.file,'success');setTimeout(function(){location.reload()},1000)}else{showToast(d.error||'打包失败','error')}}).catch(function(){showToast('打包失败','error')})}}ctx.classList.remove('show')});");
+                sb.AppendLine("var _cz=document.getElementById('ctxZip');if(_cz)_cz.addEventListener('click',function(){if(ctxRow&&ctxRow.dataset.isdir==='1'){if(confirm('确认打包此目录为ZIP？')){fetch(ctxRow.dataset.href.replace(/\\/$/,'')+'/_zip').then(function(r){return r.json()}).then(function(d){if(d.ok){showToast('打包成功: '+d.file,'success');setTimeout(function(){location.reload()},1000)}else{showToast(d.error||'打包失败','error')}}).catch(function(){showToast('打包失败','error')})}}ctx.classList.remove('show')});");
             if (showRename)
             {
-                sb.AppendLine("document.getElementById('ctxRename').addEventListener('click',function(){if(ctxRow){openRenameModal(ctxRow.dataset.name)}ctx.classList.remove('show')});");
+                sb.AppendLine("var _cr=document.getElementById('ctxRename');if(_cr)_cr.addEventListener('click',function(){if(ctxRow){openRenameModal(ctxRow.dataset.name)}ctx.classList.remove('show')});");
             }
             if (showMove)
             {
-                sb.AppendLine("document.getElementById('ctxMove').addEventListener('click',function(){if(ctxRow){openMoveModal(ctxRow.dataset.name)}ctx.classList.remove('show')});");
+                sb.AppendLine("var _cm=document.getElementById('ctxMove');if(_cm)_cm.addEventListener('click',function(){if(ctxRow){openMoveModal(ctxRow.dataset.name)}ctx.classList.remove('show')});");
             }
             if (showDelete)
             {
-                sb.AppendLine("document.getElementById('ctxDelete').addEventListener('click',function(){if(ctxRow){var n=ctxRow.dataset.name;if(confirm('确认删除: '+n+' ? 此操作不可撤销。')){fetch(ctxRow.dataset.href,{method:'DELETE'}).then(function(r){if(r.ok){showToast('已删除: '+n,'success');setTimeout(function(){location.reload()},500)}else{showToast('删除失败','error')}}).catch(function(){showToast('删除失败','error')})}}ctx.classList.remove('show')});");
+                sb.AppendLine("var _cdel=document.getElementById('ctxDelete');if(_cdel)_cdel.addEventListener('click',function(){if(ctxRow){var n=ctxRow.dataset.name;if(confirm('确认删除: '+n+' ? 此操作不可撤销。')){fetch(ctxRow.dataset.href,{method:'DELETE'}).then(function(r){if(r.ok){showToast('已删除: '+n,'success');setTimeout(function(){location.reload()},500)}else{showToast('删除失败','error')}}).catch(function(){showToast('删除失败','error')})}}ctx.classList.remove('show')});");
             }
 
             // 搜索过滤
-            sb.AppendLine("var searchTimer=null;document.getElementById('searchInput').addEventListener('input',function(){var q=this.value.toLowerCase();clearTimeout(searchTimer);searchTimer=setTimeout(function(){var rows=document.querySelectorAll('.file-row');rows.forEach(function(r){var name=(r.dataset.name||'').toLowerCase();r.classList.toggle('hidden',q.length>0&&name.indexOf(q)===-1)});updateCount()},150)});");
-            sb.AppendLine("function doClearSearch(){document.getElementById('searchInput').value='';document.querySelectorAll('.file-row').forEach(function(r){r.classList.remove('hidden')});updateCount()}");
+            sb.AppendLine("var searchTimer=null;");
+            sb.AppendLine("function doSearch(){var q=(document.getElementById('searchInput').value||document.getElementById('searchInputMobile').value||'').toLowerCase();clearTimeout(searchTimer);searchTimer=setTimeout(function(){var rows=document.querySelectorAll('.file-row');rows.forEach(function(r){var name=(r.dataset.name||'').toLowerCase();r.classList.toggle('hidden',q.length>0&&name.indexOf(q)===-1)});updateCount()},150)}");
+            sb.AppendLine("var _si=document.getElementById('searchInput');if(_si)_si.addEventListener('input',function(){var m=document.getElementById('searchInputMobile');if(m)m.value=this.value;doSearch()});");
+            sb.AppendLine("var _sm=document.getElementById('searchInputMobile');if(_sm)_sm.addEventListener('input',function(){var d=document.getElementById('searchInput');if(d)d.value=this.value;doSearch()});");
+            sb.AppendLine("function doClearSearch(){var si=document.getElementById('searchInput');if(si)si.value='';var sm=document.getElementById('searchInputMobile');if(sm)sm.value='';document.querySelectorAll('.file-row').forEach(function(r){r.classList.remove('hidden')});updateCount()}");
 
             // 上传进度条
             sb.AppendLine("var dz=document.getElementById('dropZone'),fi=document.getElementById('fileInput'),fm=document.getElementById('uploadForm');");
             sb.AppendLine("if(fi)fi.addEventListener('change',function(){if(fi.files.length>0)uploadFiles(fi.files)});");
+            sb.AppendLine("var folderIn=document.getElementById('folderInput');if(folderIn)folderIn.addEventListener('change',function(){if(folderIn.files.length>0)uploadFiles(folderIn.files)});");
             sb.AppendLine("if(dz){dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('dragover')});dz.addEventListener('dragleave',function(){dz.classList.remove('dragover')});dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('dragover');uploadFiles(e.dataTransfer.files)})};");
             sb.AppendLine("function uploadFiles(files){if(files.length===0)return;var total=files.length;var done=0;var pw=document.getElementById('progressWrap');var pb=document.getElementById('progressBar');var pt=document.getElementById('progressText');pw.classList.add('show');var uploadUrl='" + urlPrefix + "';Array.from(files).forEach(function(file,idx){var xhr=new XMLHttpRequest();var form=new FormData();form.append('file',file);xhr.upload.onprogress=function(e){if(e.lengthComputable){var pct=Math.round((done/e.total+e.loaded/e.total*idx)*100);pb.style.width=pct+'%';pt.textContent='上传中: '+file.name+' ('+pct+'%)'}};xhr.onload=function(){done++;pb.style.width=Math.round(done/total*100)+'%';pt.textContent=done+'/'+total+' 已上传';if(done===total){setTimeout(function(){pw.classList.remove('show');pb.style.width='0%';pt.textContent='';showToast('全部上传完成','success');setTimeout(function(){location.reload()},500)},500)}};xhr.onerror=function(){done++;showToast('上传失败: '+file.name,'error')};xhr.open('POST',uploadUrl);xhr.send(form)})}");
 

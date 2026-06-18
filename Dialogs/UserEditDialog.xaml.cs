@@ -40,7 +40,7 @@ namespace SuperHttpFileServer
             if (existing != null)
             {
                 _isEditMode = true;
-                Title = "编辑用户";
+                Title = "编辑";
                 UsernameBox.Text = existing.UserName;
                 _originalPassword = existing.Password;
                 _currentPlainText = existing.Password;
@@ -66,7 +66,7 @@ namespace SuperHttpFileServer
             else
             {
                 _isEditMode = false;
-                Title = "新建用户";
+                Title = "新建";
                 PasswordTextBox.Text = "";
                 PasswordTextBox.IsReadOnly = false;
                 AllowDeleteCheck.IsChecked = true;
