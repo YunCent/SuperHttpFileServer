@@ -1,10 +1,10 @@
-name: Build
+name: Build v1.0.0
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
