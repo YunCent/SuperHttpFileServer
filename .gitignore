@@ -9,7 +9,6 @@ runlog/
 ## IDE / Tools
 .vs/
 .idea/
-.workbuddy/
 *.user
 *.suo
 
