@@ -1,4 +1,4 @@
-name: Build v1.0.0
+name: Build & Release
 
 on:
   push:
@@ -28,3 +28,32 @@ jobs:
         with:
           name: SHFS-v1.0.0
           path: bin\Release\net48\SHFS.exe
+
+  release:
+    needs: build
+    runs-on: windows-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: SHFS-v1.0.0
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: SHFS v1.0.0
+          body: |
+            Super Http File Server v1.0.0
+
+            功能：
+            - 文件浏览、上传、下载、删除、重命名、移动
+            - 图片/文本/PDF/视频/音频/Office 在线预览
+            - 多用户认证、分组权限、会话超时
+            - SSL/HTTPS 支持
+            - ZIP 打包下载
+            - 单文件部署
+          files: SHFS.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
