@@ -1,0 +1,132 @@
+<Window x:Class="SuperHttpFileServer.UserDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="用户管理" Height="360" Width="400" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="#FAFAFA">
+
+    <Grid Margin="18,14,18,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" x:Name="MainTabs" Margin="0,0,0,8" SelectionChanged="OnTabChanged">
+            <!-- 用户列表页签 -->
+            <TabItem Header="用户列表">
+                <ListView x:Name="UserListView" SelectionMode="Single"
+                          BorderBrush="#E0E0E0" BorderThickness="0"
+                          FontSize="13" MouseDoubleClick="OnUserDoubleClick">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="用户名" Width="70" DisplayMemberBinding="{Binding UserName}"/>
+                            <GridViewColumn Header="分组" Width="70" DisplayMemberBinding="{Binding GroupName}"/>
+                            <GridViewColumn Header="删除" Width="38">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowDelete, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="上传" Width="38">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowUpload, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="压缩" Width="38">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowZip, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="移动" Width="38">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowMove, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="重命名" Width="46">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowRename, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+
+            <!-- 分组管理页签 -->
+            <TabItem Header="分组管理">
+                <ListView x:Name="GroupListView" SelectionMode="Single"
+                          BorderBrush="#E0E0E0" BorderThickness="0"
+                          FontSize="13" MouseDoubleClick="OnGroupDoubleClick">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="分组名" Width="80" DisplayMemberBinding="{Binding GroupName}"/>
+                            <GridViewColumn Header="共享目录" Width="180" DisplayMemberBinding="{Binding ShareDir}"/>
+                            <GridViewColumn Header="删除" Width="36">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowDelete, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="上传" Width="36">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowUpload, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="压缩" Width="36">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding AllowZip, Mode=TwoWay}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+
+            <!-- 黑名单页签 -->
+            <TabItem Header="黑名单">
+                <DataGrid x:Name="BlackDataGrid" AutoGenerateColumns="False" IsReadOnly="True"
+                          SelectionMode="Single" SelectionUnit="FullRow"
+                          HeadersVisibility="Column" FontSize="13"
+                          BorderBrush="#E0E0E0" BorderThickness="1"
+                          GridLinesVisibility="Horizontal" CanUserResizeColumns="False"
+                          RowHeight="28">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="IP 地址" Width="130" Binding="{Binding Ip}"/>
+                        <DataGridTextColumn Header="失败" Width="50" Binding="{Binding FailCount}"/>
+                        <DataGridTextColumn Header="解封时间" Width="*" Binding="{Binding LockTimeStr}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+        <!-- 操作按钮（根据页签切换） -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button x:Name="BtnAdd" Content="新建" Style="{StaticResource ModernBtn}" Click="OnAdd" Margin="0,0,8,0" MinWidth="80"/>
+            <Button x:Name="BtnEdit" Content="编辑" Style="{StaticResource GhostBtn}" Click="OnEdit" Margin="0,0,8,0" MinWidth="80"/>
+            <Button x:Name="BtnDelete" Content="删除" Style="{StaticResource DangerBtn}" Click="OnDelete" MinWidth="80"/>
+        </StackPanel>
+
+        <!-- 确定/取消/解封 -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="BtnUnlock" Content="解封" Style="{StaticResource ModernBtn}" Visibility="Collapsed"
+                    Click="OnUnlockIp" Margin="0,0,8,0" MinWidth="68"/>
+            <Button Content="确定" Style="{StaticResource ModernBtn}" Click="OnOk" Margin="0,0,8,0"/>
+            <Button Content="取消" Style="{StaticResource GhostBtn}" Click="OnCancel"/>
+        </StackPanel>
+    </Grid>
+</Window>

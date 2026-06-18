@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\main.ico</ApplicationIcon>
+    <AssemblyName>SHFS</AssemblyName>
+    <RootNamespace>SuperHttpFileServer</RootNamespace>
+    <Version>1.0.0</Version>
+    <LangVersion>7.3</LangVersion>
+    <DebugType>none</DebugType>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <!-- Release 不生成 exe.config -->
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <GenerateAppxManifest>false</GenerateAppxManifest>
+  </PropertyGroup>
+
+  <Target Name="RemoveConfigOnRelease" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
+    <Delete Files="$(OutputPath)SHFS.exe.config" />
+    <Delete Files="$(OutputPath)SHFS.pdb" />
+  </Target>
+
+  <!-- 清理非 Windows 和非 x64 的原生库 -->
+  <Target Name="CleanupUnwantedNatives" AfterTargets="Build">
+    <ItemGroup>
+      <UnwantedFiles Include="$(OutputPath)arm64\**\*.*" />
+      <UnwantedFiles Include="$(OutputPath)x86\**\*.*" />
+      <UnwantedFiles Include="$(OutputPath)x64\**\*.*" />
+      <UnwantedFiles Include="$(OutputPath)**\*.dylib" />
+      <UnwantedFiles Include="$(OutputPath)**\*.so" />
+      <UnwantedFiles Include="$(OutputPath)HarfBuzzSharp.dll" />
+    </ItemGroup>
+    <Delete Files="@(UnwantedFiles)" />
+    <RemoveDir Directories="$(OutputPath)arm64;$(OutputPath)x86;$(OutputPath)x64" Condition="Exists('$(OutputPath)arm64') or Exists('$(OutputPath)x86') or Exists('$(OutputPath)x64')" />
+  </Target>
+
+  <ItemGroup>
+    <Resource Include="Resources\main.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
+    <PackageReference Include="Costura.Fody" Version="5.7.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Fody" Version="6.8.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FreeSpire.Doc" Version="14.4.0" />
+    <PackageReference Include="FreeSpire.PDF" Version="12.4.0" />
+    <PackageReference Include="FreeSpire.Presentation" Version="11.4.0" />
+    <PackageReference Include="FreeSpire.XLS" Version="16.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="7z.exe" />
+    <EmbeddedResource Include="Resources\favicon.png" />
+    <EmbeddedResource Include="Resources\logo.png" />
+  </ItemGroup>
+
+</Project>

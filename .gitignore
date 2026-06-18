@@ -19,5 +19,5 @@ Desktop.ini
 .DS_Store
 
 ## Unused resources
-SimpleHttpServer/Resources/exe-icon.png
-SimpleHttpServer/Resources/image-icon.png
+SHFS/Resources/exe-icon.png
+SHFS/Resources/image-icon.png

@@ -18,13 +18,13 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore SimpleHttpServer\SimpleHttpServer.csproj
+        run: dotnet restore SHFS\SHFS.csproj
 
       - name: Build
-        run: dotnet build SimpleHttpServer\SimpleHttpServer.csproj -c Release --no-restore
+        run: dotnet build SHFS\SHFS.csproj -c Release --no-restore
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: SHFS-v1.0.0
-          path: SimpleHttpServer\bin\Release\net48\SHFS.exe
+          path: SHFS\bin\Release\net48\SHFS.exe
