@@ -19,5 +19,5 @@ Desktop.ini
 .DS_Store
 
 ## Unused resources
-SHFS/Resources/exe-icon.png
-SHFS/Resources/image-icon.png
+Resources/exe-icon.png
+Resources/image-icon.png
